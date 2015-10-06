@@ -55,13 +55,21 @@ Come già accennato, SuperApp è divisa in tre diversi giochi di cui il primo è
 \label{fig:hierarchy}
 \end{figure}
 
-
-\section{Back-End}
+\section{Backend}
 
 \subsection{Il TenBus}
 % spiegare funzionamento TenBus:
 % - BTThread
 % - Peer
+Prima di spiegare il funzionamento di qualsiasi altro componente di SuperApp è necessario introdurre il \code{TenBus}, parte del package \code{it.playfellas.superapp.network}. Questa classe è quella che permette a tutte le componenti del sistema di comunicare tra di loro sia in remoto che in locale. Il \code{TenBus} è un \textit{wrapper} attorno al famoso \textit{bus} ad eventi \textbf{Otto} (\url{http://square.github.io/otto/}).
+
+Dopo aver ottenuto un'istanza del \code{TenBus} tramite il metodo statico \code{get}, un oggetto può \code{post}are \code{NetEvent} oppure \code{InternalEvent}. I primi verranno inviati in remoto sul canale \textit{Bluetooth}, i secondi verranno propagati in locale usando l'originale Otto. Gli eventi sono di molteplici tipi e le loro classi sono contenute nel package \code{it.playfellas.superapp.events}. La generazione di questi ultimi e accentrata nella \code{EventFactory}.
+
+Se un oggetto volesse ricevere degli eventi, dovrà semplicemente invocare il metodo \code{register} passando un qualsiasi oggetto (anche \code{this}) che abbia registrato dei metodi tramite l'annotazione \code{@Subscribe}. I methodi annotati devono accettare in ingresso un oggetto di tipo uguale all'evento interessato e ritornare un valore \code{void}.
+
+Il \code{TenBus} offre anche i metodi \code{attach} e \code{detach} per permettere lo scambio di eventi in remoto. Per il funzionamento dettagliato della connessione \textit{Bluetooth} (inizializzazione, chiusura) si veda il codice.
+
+Le classi \code{BTThread} e \code{Peer} (e quelle che le estendono) sono volutamente invisibili all'esterno del package \code{network}, l'unico punto d'accesso alla rete per un oggetto esterno è il \code{TenBus}.
 
 \subsection{La Logica di Gioco}
 \label{subsec:logic}
