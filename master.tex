@@ -25,6 +25,15 @@
 \newcommand{\todo}[1]{\colorbox{yellow}{\textbf{\#TODO} #1}}
 % chapter -> capitolo
 \renewcommand{\chaptername}{Capitolo}
+% command for title pages
+\newcommand{\doctitle}[2]{
+\vspace*{3cm}
+\begin{flushright}
+\Large \textit{Documentazione a cura di\\#1}\\
+\large (\texttt{#2})
+\end{flushright}
+\newpage
+}
 
 \begin{document}
 
