@@ -1,4 +1,5 @@
+TEXCC=latexmk
 MASTER=master.tex
 
 build:
-	latexmk -pdf $(MASTER)
+	$(TEXCC) -pdf $(MASTER)
