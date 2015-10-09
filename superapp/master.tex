@@ -132,7 +132,7 @@ La disponibilità di connettività internet non è comunque necessaria proprio g
 
 La struttura dai dati è quella di un oggetto \textit{JSON}. I dati in remoto, infatti, possono essere esportati come file \code{.json} in qualsiasi momento.
 
-Il dato di una partita contiene la sua storia completa (ogni singolo \textit{click} da parte dei giocatori e l'esattezza o meno della risposta data) e più di dieci indici. La struttura del dato è ancora da considerarsi variabile fino a sperimentazione conclusa.
+Il dato di una partita contiene il suo \textit{ID} (visibile sulla schermata di gioco del \textit{master}), la sua storia completa (ogni singolo \textit{click} da parte dei giocatori e l'esattezza o meno della risposta data) e più di dieci indici. La struttura del dato è ancora da considerarsi variabile fino a sperimentazione conclusa.
 
 Riportiamo un esempio di dato per una partita, troncato dove la struttura di dati è ripetitiva e dove l'informazione è ridondante, nel listato \ref{lst:data}.
 
@@ -233,21 +233,71 @@ I dati sono salvati all'indirizzo \url{https://giocoso2015.firebaseio.com/}. Per
 In questa sezione riportiamo un elenco delle \textit{activity} e dei \textit{fragment} e le loro principali mansioni.
 Per il codice sorgente si faccia riferimento al package \code{it.playfellas.superapp.ui}.
 
+\newcommand{\includescreenshot}[2]{
+\begin{figure}[h!]
+\centering{
+\includegraphics[width=\textwidth]{screenshots/#1.png}}
+\caption{#2}
+\label{fig:#1}
+\end{figure}
+}
+
 \begin{description}
-\item[MainActivity] è il punto di accesso dell'applicazione, permette di scegliere tra \textit{master} e \textit{slave};
-\item[master.MasterActivity] permette la scelta tra i diversi giochi (1, 2 e 3);
-\item[master.GameActivity] è l'\textit{activity} in cui avviene la partita nel \textit{master}. Contiene i seguenti \textit{fragment}:
+\item[MainActivity (fig. \ref{fig:master_slave})]\hfill\\
+    è il punto di accesso dell'applicazione, permette di scegliere tra \textit{master} e \textit{slave};
+
+\includescreenshot{master_slave}{La \code{MainActivity}}
+
+\item[master.MasterActivity (fig. \ref{fig:master_gameselection})]\hfill\\
+    permette la scelta tra i diversi giochi (1, 2 e 3);
+
+\includescreenshot{master_gameselection}{La selezione del gioco}
+
+\item[master.GameActivity]\hfill\\
+    è l'\textit{activity} in cui avviene la partita nel \textit{master}. Contiene i seguenti \textit{fragment}:
+
     \begin{description}
-        \item[SettingsFragment] permette di configurare il gioco corrente;
-        \item[GameFragment] mostra lo stato della partita (stage, punteggio, foto dei giocatori, ecc.). Istanzia il giusto (per la modalità di gioco corrente) \code{GamePresenter} che a sua volta istanzia il giusto \code{MasterController}.
+    \item[SettingsFragment (fig. \ref{fig:master_gamesettings})]\hfill\\
+        permette di configurare il gioco corrente;
+
+    \includescreenshot{master_gamesettings}{Il \textit{master} configura la partita che sta per iniziare}
+
+    \item[GameFragment (fig. \ref{fig:master_game})]\hfill\\
+        mostra lo stato della partita (stage, punteggio, foto dei giocatori, ecc.). Istanzia il giusto (per la modalità di gioco corrente) \code{GamePresenter} che a sua volta istanzia il giusto \code{MasterController}.
+
+    \includescreenshot{master_game}{La schermata che mostra lo stato della partita sul \textit{master}}
     \end{description}
-\item[master.bluetooth.BluetoothActivity] permette l'associazione dei dispositivi.
-\item[master.bluetooth.FastStartActivity] permette l'avvio rapido del \textit{master} riassociando gli ultimi dispositivi connessi.
-\item[slave.SlaveActivity] \textit{activity} in cui lo \textit{slave} aspetta di venir scelto dal \textit{master} come giocatore della partita tramite associazione \textit{Bluetooth};
-\item[slave.GameActivity] è l'\textit{activity} in cui avviene la partita nello \textit{slave}. Tramite la ricezione degli eventi che estendono \code{StartGameEvent}, determina la modalità di gioco corrente e sceglie, di conseguenza, il giusto \textit{fragment} da mostrare. Contiene i seguenti \textit{fragment}:
+
+\item[master.bluetooth.BluetoothActivity (fig. \ref{fig:master_btactivity})]\hfill\\
+    permette l'associazione dei dispositivi.
+
+\includescreenshot{master_btactivity}{La connessione \textit{master}/\textit{slave} tramite \textit{Bluetooth}}
+
+\item[master.bluetooth.FastStartActivity (fig. \ref{fig:master_faststart})]\hfill\\
+    permette l'avvio rapido del \textit{master} riassociando gli ultimi dispositivi connessi.
+
+\includescreenshot{master_faststart}{La schermata di configurazione veloce di gioco}
+
+\item[slave.SlaveActivity (fig. \ref{fig:slave_waiting})]\hfill\\
+    \textit{activity} in cui lo \textit{slave} aspetta di venir scelto dal \textit{master} come giocatore della partita tramite associazione \textit{Bluetooth};
+
+    \includescreenshot{slave_waiting}{La schermata di attesa di connessione per lo \textit{slave}}
+
+\item[slave.GameActivity]\hfill\\
+    è l'\textit{activity} in cui avviene la partita nello \textit{slave}. Tramite la ricezione degli eventi che estendono \code{StartGameEvent}, determina la modalità di gioco corrente e sceglie, di conseguenza, il giusto \textit{fragment} da mostrare. Contiene i seguenti \textit{fragment}:
+
     \begin{description}
-        \item[PhotoFragment] l'utente può scattarsi una foto da utilizzare come \textit{avatar} durante la partita;
-        \item[SlaveGameFragment] contiene i nastri trasportatori e i \textit{tiles} (vedi sezione \ref{subsec:libgdx}). Istanzia i nastri trasportatori e lo \code{SlavePresenter} (che, come sul \textit{master}, istanzia lo \code{SlaveController}) in base alla modalità di gioco corrente.
+    \item[PhotoFragment (fig. \ref{fig:slave_photo})]\hfill\\
+        l'utente può scattarsi una foto da utilizzare come \textit{avatar} durante la partita;
+
+    \includescreenshot{slave_photo}{Lo scatto della foto dell'utente}
+
+    \item[SlaveGameFragment (fig. \ref{fig:slave_game1}, \ref{fig:slave_game2} e \ref{fig:slave_game3})]\hfill\\
+        contiene i nastri trasportatori e i \textit{tiles} (vedi sezione \ref{subsec:libgdx}). Istanzia i nastri trasportatori e lo \code{SlavePresenter} (che, come sul \textit{master}, istanzia lo \code{SlaveController}) in base alla modalità di gioco corrente.
+
+    \includescreenshot{slave_game1}{La schermata di gioco nel gioco 1}
+    \includescreenshot{slave_game2}{La schermata di gioco nel gioco 2}
+    \includescreenshot{slave_game3}{La schermata di gioco nel gioco 3}
     \end{description}
 \end{description}
 
@@ -263,8 +313,13 @@ Gli elementi costitutivi del modulo \code{libgdx} sono:
 
 \begin{description}
     \item[la Scene] la \textit{scena} del gioco;
-    \item[i Conveyor] sono i nastri trasportatori, su cui vengono posati i \textit{tile}. Essi possono essere di diversi tipi. Troviamo infatti \code{MovingConveyor}, \code{SizeConveyor} e \code{TowerConveyor}.\\
+    \item[i Conveyor] sono i nastri trasportatori, su cui vengono posati i \textit{tile}. Essi possono essere di diversi tipi. Troviamo infatti \code{MovingConveyor} (figura \ref{fig:movingconveyor}), \code{SizeConveyor} (figura \ref{fig:sizeconveyor}) e \code{TowerConveyor} (figura \ref{fig:towerconveyor}).\\
         Bisogna notare che gli ultimi due non sono propriamente nastri trasportatori, in quanto sono statici e vengono utilizzati nei giochi 2 e 3 rispettivamente.
+
+    \includescreenshot{movingconveyor}{Un nastro trasportatore}
+    \includescreenshot{sizeconveyor}{Il "nastro trasportatore" statico del gioco 2}
+    \includescreenshot{towerconveyor}{Il "nastro trasportatore" statico del gioco 3}
+
     \item[le TileRepr] sono dei \textit{wrapper} intorno ad un \code{Tile} e un \code{SimpleSprite}. Essi sono la rappresentazione concreta di un \textit{Tile} (quello del modello dell'applicazione). La corrispondenza \code{TileRepr} (rappresentazione), \code{Tile} (modello) è talmente stretta e semanticamente equivalente che, da ora in poi, utilizzeremo i due termini in modo intercambiabile.
 \end{description}
 
