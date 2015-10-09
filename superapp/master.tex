@@ -123,6 +123,108 @@ In figura \ref{fig:game_flow}, viene rappresentata la successione di eventi che 
 
 \end{figure}
 
+\subsection{L'invio dei Dati di Gioco}
+Per l'invio dei dati abbiamo utilizzato il \textit{database} non relazionale di \textbf{Firebase} (\url{https://www.firebase.com/docs/android/quickstart.html}).
+
+La classe \code{GameHistory} si prende carico di memorizzare tutte le azioni intraprese dai giocatori e il loro esito, tramite l'esposizione dei metodi \code{right} e \code{wrong}. Sarà il \code{MasterController} a invocare questi metodi sulla \code{GameHistory} dopo aver ricevuto i \code{RWEvent} da parte degli \textit{slave}. Alla fine della partita, il \textit{master} persiste i dati sul \textit{backend} \textit{Firebase}.
+
+La disponibilità di connettività internet non è comunque necessaria proprio grazie al funzionamento interno di \textit{Firebase}: i dati verranno infatti salvati nel suo \textit{database} locale fino a che la connettività sarà disponibile, in quel momento, i dati verranno salvati nel \textit{database} remoto.
+
+La struttura dai dati è quella di un oggetto \textit{JSON}. I dati in remoto, infatti, possono essere esportati come file \code{.json} in qualsiasi momento.
+
+Il dato di una partita contiene la sua storia completa (ogni singolo \textit{click} da parte dei giocatori e l'esattezza o meno della risposta data) e più di dieci indici. La struttura del dato è ancora da considerarsi variabile fino a sperimentazione conclusa.
+
+Riportiamo un esempio di dato per una partita, troncato dove la struttura di dati è ripetitiva e dove l'informazione è ridondante, nel listato \ref{lst:data}.
+
+\begin{lstlisting}[
+    basicstyle=\linespread{1}\ttfamily,
+    caption=Un esempio di dato per una partita,
+    label=lst:data
+]
+{
+  "dd42247e" : {
+    "history" : [ {
+      "deltaT" : 0.0,
+      "player" : "player4",
+      "rw" : false,
+      "ts" : "28/09/2015 13:34:06:074"
+    }, {
+      "deltaT" : 0.001,
+      "player" : "player3",
+      "rw" : true,
+      "ts" : "28/09/2015 13:34:06:075"
+    },
+            // more and more clicks ...
+    ],
+    "index10_noRightPerPlayer" : {
+      "player_player1" : 10,
+      "player_player2" : 7,
+      "player_player3" : 11,
+      "player_player4" : 11
+    },
+    "index11_noWrongPerPlayerPerStage" : {
+      "player_player1" : {
+        "stage_1" : 8,
+        "stage_2" : 3,
+        "stage_3" : 3,
+        "stage_4" : 1
+      },
+            // more players ...
+    },
+    "index12_noWrongPerPlayer" : {
+        // hidden
+    },
+    "index13_ratio9_11" : {
+        // hidden
+    },
+    "index14_ratio10_12" : {
+        // hidden
+    },
+    "index15_clicksRatio" : {
+        // hidden
+    },
+    "index1_elapsedTime" : 9.166666666666666E-4, // very low because it was auto-generated
+    "index2_noWrongPerStage" : {
+      "stage_1" : 24,
+      "stage_2" : 12,
+      "stage_3" : 13,
+      "stage_4" : 12
+    },
+    "index3_noWrong" : 61,
+    "index4_noRightPerStage" : {
+        // hidden
+    },
+    "index5_noRight" : 39,
+    "index6_playerContributionPerStage" : {
+      "player_player1" : {
+        "stage_1" : {
+          "1-3" : 0.23076923076923078,
+          "2-3" : 0.46153846153846156,
+          "3-3" : 0.35714285714285715
+        },
+                // more stages...
+      },
+                // more players...
+    },
+    "index7_balancePerStage" : {
+      "stage_1" : {
+        "1-3" : 5.25,
+        "2-3" : 7.25,
+        "3-3" : 3.5
+      },
+            // more stages...
+    },
+    "index8_playerContributionStabilityPerStage" : {
+        // hidden
+    },
+    "index9_noRightPerPlayerPerStage" : {
+        // hidden
+    }
+  }
+}
+\end{lstlisting}
+
+I dati sono salvati all'indirizzo \url{https://giocoso2015.firebaseio.com/}. Per le credenziali di accesso, si contatti \url{lorenzo.affetti@polimi.it}.
 
 \section{Frontend}
 
