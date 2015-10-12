@@ -10,6 +10,7 @@
 \makeatletter
 \g@addto@macro{\UrlBreaks}{\UrlOrds}
 \makeatother
+\usepackage{etoc}
 
 \linespread{1.5}
 
@@ -39,7 +40,9 @@
 
 \input{title}
 
+\setcounter{tocdepth}{0}
 \tableofcontents
+\setcounter{tocdepth}{2}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
