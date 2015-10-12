@@ -42,25 +42,22 @@
     \pagestyle{empty}
     \localtableofcontents
     \clearpage
-    \pagestyle{fancy}
+    \pagestyle{main}
 }
 
 % footer and header
-\usepackage{fancyhdr}
+\usepackage{titleps}
 
-\fancyhf{}
-
-\fancyhead[L]{\leftmark}
-\fancyhead[R]{\rightmark}
-
-\renewcommand{\footrulewidth}{0.4pt}
-\fancyfoot[L]{%
-Progetto Giocoso 2015 - Documentazione delle Applicazioni.\\
-\textit{Ultimo aggiornamento: \today}
+\newpagestyle{main}[\normalsize]{
+    \setheadrule{0.4pt}
+    \sethead{\chaptertitle}{}{\sectiontitle}
+    \setfootrule{0.4pt}
+    \setfoot{
+        Progetto Giocoso 2015 - Documentazione delle Applicazioni.
+    }
+    {}{\thepage}
 }
-\fancyfoot[R]{\thepage}
-
-\pagestyle{fancy}
+\pagestyle{main}
 
 % BEGIN DOCUMENT
 
