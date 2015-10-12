@@ -49,7 +49,7 @@ Classe che rappresenta il livello di gioco, possiede come propeirt\`{a} il tempo
 \item \textbf{Element}
 \noindent Classe che rappresenta un immagine, possiede due attributi, il nome dell'immagine presente nella cartella \emph{drawable} e un valore booleano che indica se \`{e} l'elemento target.
 \item \textbf{Category}
-Classe che rappresenta una categoria di immagini, possiede come propriet\`{a} il nome della categoria, un campo booleano che indica se si tratta di una categoria "Casuale" e una lista di oggetti CategoryGroups relativi alla categoria. Il costruttore accetta un JSONObject contenente la definizione della categoria e da esso inizializza l'oggetto.
+Classe che rappresenta una categoria di immagini, possiede come propriet\`{a} il nome della categoria, un campo booleano che indica se si tratta di una categoria ``Casuale'' e una lista di oggetti CategoryGroups relativi alla categoria. Il costruttore accetta un JSONObject contenente la definizione della categoria e da esso inizializza l'oggetto.
 \item \textbf{CategoryGroup}
 Classe che rappresenta una gruppo di immagini che deve essere rappresentato in una schermata. Definisce l'elemento target e i restanti elementi.
 \end{description}
@@ -74,7 +74,7 @@ Classe che rappresenta una gruppo di immagini che deve essere rappresentato in u
 \end{description}
 
 \subsection{Gestione della comunicazione in partite multiplayer}
-\noindent Per la gestione delle comunicazioni tra dispositivi nelle partite multiplayer \`{e} stata creata una classe GameMessage, la quale definisce una propriet\`{a} di tipo Serializable, che rappresenta il contenuto del messaggio, e una propriet\`{a} chiamata "Type", un enum che indica il tipo di messaggio, che pu\`{o} assumere i seguenti valori:
+\noindent Per la gestione delle comunicazioni tra dispositivi nelle partite multiplayer \`{e} stata creata una classe GameMessage, la quale definisce una propriet\`{a} di tipo Serializable, che rappresenta il contenuto del messaggio, e una propriet\`{a} chiamata ``Type'' un enum che indica il tipo di messaggio, che pu\`{o} assumere i seguenti valori:
 \begin{itemize}
 \item \emph{ConnectionRequest}: i messaggi di questo tipo non hanno contenuto e servono ad inoltrare a un dispositivo una richiesta di connessione per avviare una partita;
 \item \emph{ConncectionAccepted}: questo messaggio viene inviato dal client al server quando il giocatore accetta di giocare;

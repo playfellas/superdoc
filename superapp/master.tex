@@ -309,7 +309,7 @@ Per l'istanziazione dei \textit{controller} si faccia riferimento a \code{it.pla
 \label{subsec:libgdx}
 Il modulo del progetto che gestisce la visualizzazione e lo scorrimento dei nastri e la rappresentazione e animazione dei \textit{tile} è \code{libgdx}. \textbf{LibGDX} (\url{https://libgdx.badlogicgames.com/features.html}) è un framework Java che utilizza \textbf{OpenGL} (\url{https://www.opengl.org/}) per la renderizzazione video. Il risultato della scelta di questo framework è un miglioramento sia nella fluidità delle animazioni, che nell'occupazione della memoria del dispositivo da parte dell'applicazione rispetto all'utilizzo dell'\code{ObjectAnimator} standard di Android.
 
-\textit{LibGDX} racchiude i concetti più comuni dei framework di renderizzazione grafica. Troviamo infatti la \textit{scena}, il "luogo" in cui avvengono le animazioni, e gli \textit{sprite}, immagini bidimensionali dotate di posizione, texture (la loro immagine), altezza e larghezza.
+\textit{LibGDX} racchiude i concetti più comuni dei framework di renderizzazione grafica. Troviamo infatti la \textit{scena}, il ``luogo''in cui avvengono le animazioni, e gli \textit{sprite}, immagini bidimensionali dotate di posizione, texture (la loro immagine), altezza e larghezza.
 
 Gli elementi costitutivi del modulo \code{libgdx} sono:
 
@@ -319,13 +319,13 @@ Gli elementi costitutivi del modulo \code{libgdx} sono:
         Bisogna notare che gli ultimi due non sono propriamente nastri trasportatori, in quanto sono statici e vengono utilizzati nei giochi 2 e 3 rispettivamente.
 
     \includescreenshot{movingconveyor}{Un nastro trasportatore}
-    \includescreenshot{sizeconveyor}{Il "nastro trasportatore" statico del gioco 2}
-    \includescreenshot{towerconveyor}{Il "nastro trasportatore" statico del gioco 3}
+    \includescreenshot{sizeconveyor}{Il ``nastro trasportatore''statico del gioco 2}
+    \includescreenshot{towerconveyor}{Il ``nastro trasportatore''statico del gioco 3}
 
     \item[le TileRepr] sono dei \textit{wrapper} intorno ad un \code{Tile} e un \code{SimpleSprite}. Essi sono la rappresentazione concreta di un \textit{Tile} (quello del modello dell'applicazione). La corrispondenza \code{TileRepr} (rappresentazione), \code{Tile} (modello) è talmente stretta e semanticamente equivalente che, da ora in poi, utilizzeremo i due termini in modo intercambiabile.
 \end{description}
 
-Ciò che avviene ad ogni frame di visualizzazione è l'esecuzione del metodo \code{render} della \code{Scene}, il quale aggiunge ogni \textit{sprite} presente nella scena ad un \textit{batch} di renderizzazione, dopo averne aggiornato posizioni, texture e dimensioni. Il \textit{batch} così generato, contenente una matrice di pixel che rappresenta il "disegno" degli \textit{sprite} aggiunti, viene renderizzato tramite l'invocazione di \code{batch.end()}.
+Ciò che avviene ad ogni frame di visualizzazione è l'esecuzione del metodo \code{render} della \code{Scene}, il quale aggiunge ogni \textit{sprite} presente nella scena ad un \textit{batch} di renderizzazione, dopo averne aggiornato posizioni, texture e dimensioni. Il \textit{batch} così generato, contenente una matrice di pixel che rappresenta il ``disegno''degli \textit{sprite} aggiunti, viene renderizzato tramite l'invocazione di \code{batch.end()}.
 
-Per comprendere cosa si intende per "aggiornamento" di uno \textit{sprite}, si pensi alla sua posizione: per far muovere un nastro o un \textit{tile}, infatti, è necessario cambiare la sua posizione pixel per pixel ad ogni frame di rappresentazione (si vedano i metodi \code{update} nelle classi che estendono \code{Conveyor}).
+Per comprendere cosa si intende per ``aggiornamento''di uno \textit{sprite}, si pensi alla sua posizione: per far muovere un nastro o un \textit{tile}, infatti, è necessario cambiare la sua posizione pixel per pixel ad ogni frame di rappresentazione (si vedano i metodi \code{update} nelle classi che estendono \code{Conveyor}).
 
