@@ -37,6 +37,16 @@
 \newpage
 }
 
+% For Screenshots
+\newcommand{\screenshot}[2]{
+\begin{figure}[h!]
+\centering{
+\includegraphics[width=\textwidth]{screenshots/#1.png}}
+\caption{#2}
+\label{fig:#1}
+\end{figure}
+}
+
 % commands for local toc
 \newcommand{\localtoc}{
     \pagestyle{empty}
