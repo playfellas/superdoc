@@ -4,8 +4,9 @@
 \doctitle{Lorenzo Affetti}{lorenzo.affetti@polimi.it}
 \localtoc
 
+\section{Manuale Sviluppatore}
 
-\section{Introduzione}
+\subsection{Introduzione}
 Lo scopo dell'applicazione quello di mettere in atto una collaborazione tra quattro giocatori attraverso diverse modalità di gioco.
 Ogni giocatore della squadra gioca su un tablet diverso, uno \textit{slave}. Il gioco necessita di un ulteriore tablet, il \textit{master}, che non verrà utilizzato da nessun giocatore, ma che fornirà informazioni di massima sulla partita in corso e scandirà le partite e le manche di gioco.
 
@@ -30,7 +31,7 @@ In ognuno dei tre giochi l'applicazione sottopone agli utenti delle immagini che
 
 Ogni \textit{partita} è composta da un numero di \textit{manche} (o \textit{stage}) configurabile. Il completamento di tutte le manche porta alla vittoria del gruppo. I punteggi sono sempre cumulativi dell'intera squadra.
 
-\section{Struttura Generale}
+\subsection{Struttura Generale}
 % - i vari pattern di comunicazione
 % TODO diagramma di interazione back <-> front (con tanto di eventi)
 
@@ -72,9 +73,9 @@ Il diagramma in figura \ref{fig:components} mostra i vari componenti di SuperApp
 \end{figure}
 
 
-\section{Backend}
+\subsection{Backend}
 
-\subsection{Il TenBus}
+\subsubsection{Il TenBus}
 \label{subsec:tenbus}
 Prima di spiegare il funzionamento di qualsiasi altro componente di SuperApp è necessario introdurre il \code{TenBus}, parte del package \code{it.playfellas.superapp.network}. Questa classe è quella che permette a tutte le componenti del sistema di comunicare tra di loro -- sia in remoto che in locale -- per mezzo della trasmissione di \textit{eventi}. Il \code{TenBus} è un \textit{wrapper} attorno al \textit{bus} ad eventi \textbf{Otto} (\url{http://square.github.io/otto/}).
 
@@ -86,7 +87,7 @@ Il \code{TenBus} offre anche i metodi \code{attach} e \code{detach} per permette
 
 Le classi \code{BTThread} e \code{Peer} (e quelle che le estendono) sono volutamente invisibili all'esterno del package \code{network}, l'unico punto d'accesso alla rete per un oggetto esterno è il \code{TenBus}.
 
-\subsection{La Logica di Gioco}
+\subsubsection{La Logica di Gioco}
 \label{subsec:logic}
 % la GameHistory?
 
@@ -108,7 +109,6 @@ Gli elementi fondamentali della logica di gioco sono contenuti nel package \code
     Gli \textit{slave} attendono che i \textit{master} trasmettano gli eventi di inizio/fine partita e inizio/fine manche per poter dare inizio al gioco vero e proprio. Essi istanziano i \textit{dispenser} per ottenere i prossimi \textit{tile} da fornire agli utenti e contengono anche la parte di logica di gioco riguardante l'esattezza o meno di un \textit{tile} date le sue caratteristiche (vedi metodo \code{isTileRight}). Quest'ultima informazione è quella che verrà trasmessa tramite eventi al \textit{master} che deciderà, di conseguenza, se incrementare o azzerare (o altro) il punteggio complessivo. Ogni \code{SlaveController} fornisce anche il metodo \code{nextTile}, il quale \textit{delega} ad un \textit{dispenser} l'ottenimento del prossimo \textit{tile} (metodo \code{next}) da mostrare all'utente. Sarà poi la parte di \textit{UI} che mostrerà il tesserino all'utente posizionandolo nel momento giusto sul nastro trasportatore usando il \code{DisposingService} (si veda \code{it.playfellas.superapp.ui.slave}).
 \end{description}
 
-\subsubsection{La Partita}
 Come precedentemente detto, la partita è articolata in un numero configurable di stage. Ognuno di essi prevede un punteggio massimo configurabile. Al raggiungimento di tale punteggio, lo stage termina e si dà inizio allo stage successivo. Quando tutti gli stage sono stati completati, la partita finisce.
 
 La scansione della partita nelle suddette fasi è determinata dal \code{MasterController}. Esso invia, tramite il \code{TenBus}, un evento \code{StartGameEvent} (in realtà, viene inviato un evento che estende quella classe. Per esempio: \code{StartGame1Color}, oppure \code{StartGame2Event}, ecc.). Alla ricezione dell'evento, ogni \textit{slave} reagisce mostrando la schermata di gioco all'utente. A questo punto, il \textit{master} procede per stage fino al loro esaurimento: viene inviato un \code{BeginStageEvent} e lo stage ha inizio; quando il punteggio massimo viene raggiunto, il \textit{master} invia un \code{EndStageEvent} seguito da un ulteriore \code{BeginStageEvent} in caso vi sia un altro stage da giocare, altrimenti viene inviato un \code{EndGameEvent}.
@@ -123,7 +123,7 @@ In figura \ref{fig:game_flow}, viene rappresentata la successione di eventi che 
 
 \end{figure}
 
-\subsection{L'invio dei Dati di Gioco}
+\subsubsection{L'invio dei Dati di Gioco}
 Per l'invio dei dati abbiamo utilizzato il \textit{database} non relazionale di \textbf{Firebase} (\url{https://www.firebase.com/docs/android/quickstart.html}).
 
 La classe \code{GameHistory} si prende carico di memorizzare tutte le azioni intraprese dai giocatori e il loro esito, tramite l'esposizione dei metodi \code{right} e \code{wrong}. Sarà il \code{MasterController} a invocare questi metodi della \code{GameHistory} dopo aver ricevuto i \code{RWEvent} da parte degli \textit{slave}. Alla fine della partita, il \textit{master} persiste i dati sul \textit{backend} \textit{Firebase}.
@@ -226,23 +226,20 @@ Riportiamo un esempio di dato per una partita, troncato dove la struttura dei da
 
 I dati sono salvati all'indirizzo \url{https://giocoso2015.firebaseio.com/}. Per le credenziali di accesso, si contatti \url{lorenzo.affetti@polimi.it}.
 
-\section{Frontend}
+\subsection{Frontend}
 
-\subsection{Le Activity e i Fragment}
+\subsubsection{Le Activity e i Fragment}
 \label{subsec:activities}
-In questa sezione riportiamo un elenco delle \textit{activity} e dei \textit{fragment} e le loro principali mansioni.
+In questa sezione riportiamo un elenco delle \textit{activity} e dei \textit{fragment} e delle loro principali mansioni. Si noti che, a fianco dei nomi di \textit{activity} o \textit{fragment}, è riportato un riferimento ad una figura della sezione \ref{sec:superapp_user_manual} rappresentante la corrispettiva visuallizzazione sul dispositivo; ciò è stato fatto per garantire una maggiore chiarezza verso il lettore/sviluppatore che, in caso di manutenzione futura, saprà dove ``mettere le mani'' in caso di errori e/o aggiunta di funzionalità.
+
 Per il codice sorgente si faccia riferimento al package \code{it.playfellas.superapp.ui}.
 
 \begin{description}
 \item[MainActivity (fig. \ref{fig:master_slave})]\hfill\\
     è il punto di accesso dell'applicazione, permette di scegliere tra \textit{master} e \textit{slave};
 
-\screenshot{master_slave}{La \code{MainActivity}}
-
 \item[master.MasterActivity (fig. \ref{fig:master_gameselection})]\hfill\\
     permette la scelta tra i diversi giochi (1, 2 e 3);
-
-\screenshot{master_gameselection}{La selezione del gioco}
 
 \item[master.GameActivity]\hfill\\
     è l'\textit{activity} in cui avviene la partita nel \textit{master}. Contiene i seguenti \textit{fragment}:
@@ -251,28 +248,18 @@ Per il codice sorgente si faccia riferimento al package \code{it.playfellas.supe
     \item[SettingsFragment (fig. \ref{fig:master_gamesettings})]\hfill\\
         permette di configurare il gioco corrente;
 
-    \screenshot{master_gamesettings}{Il \textit{master} configura la partita che sta per iniziare}
-
     \item[GameFragment (fig. \ref{fig:master_game})]\hfill\\
         mostra lo stato della partita (stage, punteggio, foto dei giocatori, ecc.). Istanzia il giusto (per la modalità di gioco corrente) \code{GamePresenter} che a sua volta istanzia il giusto \code{MasterController}.
-
-    \screenshot{master_game}{La schermata che mostra lo stato della partita sul \textit{master}}
     \end{description}
 
 \item[master.bluetooth.BluetoothActivity (fig. \ref{fig:master_btactivity})]\hfill\\
     permette l'associazione dei dispositivi.
 
-\screenshot{master_btactivity}{La connessione \textit{master}/\textit{slave} tramite \textit{Bluetooth}}
-
 \item[master.bluetooth.FastStartActivity (fig. \ref{fig:master_faststart})]\hfill\\
     permette l'avvio rapido del \textit{master} riassociando gli ultimi dispositivi connessi.
 
-\screenshot{master_faststart}{La schermata di configurazione veloce di gioco}
-
 \item[slave.SlaveActivity (fig. \ref{fig:slave_waiting})]\hfill\\
     \textit{activity} in cui lo \textit{slave} aspetta di venir scelto dal \textit{master} come giocatore della partita tramite associazione \textit{Bluetooth};
-
-    \screenshot{slave_waiting}{La schermata di attesa di connessione per lo \textit{slave}}
 
 \item[slave.GameActivity]\hfill\\
     è l'\textit{activity} in cui avviene la partita nello \textit{slave}. Tramite la ricezione degli eventi che estendono \code{StartGameEvent}, determina la modalità di gioco corrente e sceglie, di conseguenza, il giusto \textit{fragment} da mostrare. Contiene i seguenti \textit{fragment}:
@@ -281,20 +268,15 @@ Per il codice sorgente si faccia riferimento al package \code{it.playfellas.supe
     \item[PhotoFragment (fig. \ref{fig:slave_photo})]\hfill\\
         l'utente può scattarsi una foto da utilizzare come \textit{avatar} durante la partita;
 
-    \screenshot{slave_photo}{Lo scatto della foto dell'utente}
-
     \item[SlaveGameFragment (fig. \ref{fig:slave_game1}, \ref{fig:slave_game2} e \ref{fig:slave_game3})]\hfill\\
         contiene i nastri trasportatori e i \textit{tiles} (vedi sezione \ref{subsec:libgdx}). Istanzia i nastri trasportatori e il giusto \code{SlavePresenter} (che istanzia il giusto \code{SlaveController}) in base alla modalità di gioco corrente.
-
-    \screenshot{slave_game1}{La schermata di gioco nel gioco 1}
-    \screenshot{slave_game2}{La schermata di gioco nel gioco 2}
-    \screenshot{slave_game3}{La schermata di gioco nel gioco 3}
     \end{description}
+
 \end{description}
 
 Per l'istanziazione dei \textit{controller} si faccia riferimento a \code{it.playfellas.superapp.logic.ControllerFactory}.
 
-\subsection{I Nastri}
+\subsubsection{I Nastri}
 \label{subsec:libgdx}
 Il modulo del progetto che gestisce la visualizzazione e lo scorrimento dei nastri e la rappresentazione e animazione dei \textit{tile} è \code{libgdx}. \textbf{LibGDX} (\url{https://libgdx.badlogicgames.com/features.html}) è un framework Java che utilizza \textbf{OpenGL} (\url{https://www.opengl.org/}) per la renderizzazione video. Il risultato della scelta di questo framework è un miglioramento sia nella fluidità delle animazioni, che nell'occupazione della memoria del dispositivo da parte dell'applicazione rispetto all'utilizzo dell'\code{ObjectAnimator} standard di Android.
 
@@ -318,3 +300,47 @@ Ciò che avviene ad ogni frame di visualizzazione è l'esecuzione del metodo \co
 
 Per comprendere cosa si intende per ``aggiornamento''di uno \textit{sprite}, si pensi alla sua posizione: per far muovere un nastro o un \textit{tile}, infatti, è necessario cambiare la sua posizione pixel per pixel ad ogni frame di rappresentazione (si vedano i metodi \code{update} nelle classi che estendono \code{Conveyor}).
 
+
+
+\section{Manuale Utente}
+\label{sec:superapp_user_manual}
+Al primo avvio dell'applicazione viene mostrata la schermata principale (figura \ref{fig:master_slave}) dalla quale è possibile scegliere tra \textit{master} e \textit{slave}.
+
+\screenshot{master_slave}{La schermata principale}
+
+La scelta determina sostanzialmente il funzionamento dell'applicazione: per l'applicazione \textit{master} si faccia riferimento alla sotto-sezione \ref{subsec:user_master}, altrimenti alla sotto-sezione \ref{subsec:user_slave}.
+
+\subsection{\textit{Master}}
+\label{subsec:user_master}
+Una volta scelto di essere \textit{master}, bisognerà scegliere gli \textit{slave} che prenderanno parte alla prossima partita. Questa operazione viene effettuata tramite connessione \textit{Bluetooth} come nella schermata in figura \ref{fig:master_btactivity}.  Soprattutto per avere coerenza nel meccanismo a turni del terzo gioco, l'applicazione chiede all'utente di inserire i dispositivi uno ad uno in senso orario indicando quale deve essere il prossimo ad essere aggiunto evidenziando il corrispondente lato dello schermo in arancione, fino ad un massimo di 4 dispositivi. Il processo è effettuato ``per lato'' poiché l'applicazione è progettata per rispondere ad una configurazione topologica dei tablet come in figura \ref{fig:tablet5}.
+
+\screenshot{master_btactivity}{La connessione \textit{master}/\textit{slave} tramite \textit{Bluetooth}}
+
+Una volta scelti i giocatori, si potrà scegliere uno dei tre possibili giochi (figura \ref{fig:master_gameselection}) e, successivamente, impostare i parametri della partita (figura \ref{fig:master_gamesettings}).
+
+\screenshot{master_gameselection}{La selezione del gioco}
+\screenshot{master_gamesettings}{Il \textit{master} configura la partita che sta per iniziare}
+
+Una volta iniziata la partita, premendo la freccia nel cerchio arancione in basso a destra, viene mostrata la schermata di stato (figura \ref{fig:master_game}) contenente l'immagine del capitano, che è tanto colorata quante \textit{manche} di gioco sono state completate. Cliccando sul piccolo pulsante grigio in alto a destra contenete un punto interrogativo, si può conoscere lo stato attuale nel dettaglio ed interrompere forzatamente la partita in corso.
+
+\screenshot{master_game}{La schermata che mostra lo stato della partita sul \textit{master}}
+
+In caso il \textit{master} abbia già effettuato una volta la configurazione dei giocatori della partita, l'applicazione mostrerà la schermata di configurazione automatica (figura \ref{fig:master_faststart}) all'avvio. L'applicazione tenterà, infatti, di rieffettuare le connessioni come già erano state configurate. Questa operazione può comunque essere interrotta dando luogo ad una nuova fase di configurazione.
+
+\screenshot{master_faststart}{La schermata di configurazione veloce di gioco}
+
+\subsection{\textit{Slave}}
+\label{subsec:user_slave}
+Lo \textit{slave} attende che il \textit{master} si connetta a lui (figura \ref{fig:slave_waiting}).
+
+\screenshot{slave_waiting}{La schermata di attesa di connessione per lo \textit{slave}}
+
+Una volta che la connessione è stata effettuata, viene data la possibilità di scattare una foto (figura \ref{fig:slave_photo}) che verrà usata come \textit{avatar} di gioco, nell'attesa dell'inizio della partita.
+
+\screenshot{slave_photo}{Lo scatto della foto dell'utente}
+
+Una volta che il \textit{master} avrà configurato i parametri e avrà dato inizio alla partita, allora gli \textit{slave} potranno giocare fino alla vittoria (figure \ref{fig:slave_game1}, \ref{fig:slave_game2} e \ref{fig:slave_game3}).
+
+\screenshot{slave_game1}{La schermata di gioco nel gioco 1}
+\screenshot{slave_game2}{La schermata di gioco nel gioco 2}
+\screenshot{slave_game3}{La schermata di gioco nel gioco 3}
