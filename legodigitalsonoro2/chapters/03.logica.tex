@@ -4,13 +4,13 @@
 
 
 
-\section{Logica di gioco}
+\subsection{Logica di gioco}
 
 \label{chap:game_logic}
 
 La logica di gioco è affidata all'Activity \code{PlayActivity}; essa gestisce inoltre i \code{Fragments} (vedi capitolo \ref{chap:ui}) che visualizzano l'Intefaccia Utente.
 
-\subsection{Glossario}
+\subsubsection{Glossario}
 \label{sec:glossary}
 In questa sezione vengono descritti acuni termini utili alla comprensione delle successive sezioni.
 
@@ -20,14 +20,14 @@ In questa sezione vengono descritti acuni termini utili alla comprensione delle 
 \item[Turno] Durante una partita multi player rappresenta la possibilità per un giocatore di provare a indovinare una parola. Il giocatore che non è in possesso del turno attende la mossa dell'altro
 \end{description}
 
-\subsection{Event Bus}
+\subsubsection{Event Bus}
 \label{sec:event_bus}
 Per far comunicare i vari componenti dell'applicazione (\code{Activities}, \code{Fragments}, \code{Services}) è stato utilizzato Otto, un \textit{Event Bus}, sviluppaato appositamente per Android, che permette ai vari componenti di postare eventi su un unico Bus e per riceverli in modo asincrono.\\
 La classe \code{BusProvider} permette, tramite un metodo statico, di accedere allo stesso Bus in ogni punto dell'applicazione.\\
 All'interno del package \code{package it.gbresciani.legodigitalsonoro.events} son presenti numerose classi (ad esempio \code{WordClickedEvent} o \code{PageCompletedEvent}) che rappresentano i diversi eventi generati e ``ascoltati'' dai componenti dell'app.\\
 La classe \code{NineBus} è una piccola estensione del Bus predefinito di Otto che permette di pubblicare tutti gli eventi sul \code{Main Thread}, anche se generati in un altro \code{Thread}.
 
-\subsection{GameState}
+\subsubsection{GameState}
 \label{sec:game_state}
 \code{GameState} è la classe che rappresenta lo stato di una partita, sia essa single o multi player. Viene inizializzato da \code{PlayActivity}, e aggiornato durante il corso della partita in seguito ai diversi eventi prodotti dagli altri componenti dell'app.\\
 I suoi attributi sono:
@@ -44,11 +44,11 @@ I suoi attributi sono:
 
 La classe \code{GameState} contiene attributi annotati con \code{@SerializedName} in modo da poter essere convertita in un oggetto JSON (tramite GSON) ed essere inviata al secondo giocatore nel caso di partita multiplayer (maggiori dettagli nella sezione \ref{sec:multiplayer}).
 
-\subsection{Statistiche di gioco}
+\subsubsection{Statistiche di gioco}
 \label{sec:stats}
 Le satistiche della partita, come accennato nel capitolo sul database, vengono salvate tramite i DAO \code{WordStat} e \code{GameStat} che contengono, ad esempio, i tempi di ritrovamento delle parole, le parole stesse, la pagine su cui sono state trovate o eventualmente l'id del giocatore che le ha trovate.
 
-\subsection{Game flow}
+\subsubsection{Game flow}
 \label{sec:game_flow}
 Tutta le fasi di una partita sono gestite dall'\code{Activity} \code{PlayActivity}.
 All'avvio, cioè durante la chiamata al metodo \code{onCreate()} essa esegue le seguenti operazioni:
@@ -69,7 +69,7 @@ I principali metodi di \code{PlayActivity} sono:
 
 L'\code{Activity} presenta inoltre diversi metodi annotati con \code{@Subscribe} che permettono di reagire agli eventi pubblicati da altri componenti.
 
-\subsection{Invio statistiche}
+\subsubsection{Invio statistiche}
 \label{sec:stats_send}
 L'invio delle statistiche avviene tramite l'invio di una mail all'indirizzo settato nelle impostazioni dell'applicazione.\\
 L'invio è gestito dall'\code{IntentService} \code{GenericIntentService} al quale viene passato l'id corrispondente alla partita appena conclusa. Interrogando il database esso carica i dati e li inserisce nel corpo dell'email formattandoli come mostrato nel listing \ref{lst:stats}. Il listing \ref{lst:stats_example} ne mostra invece un esempio.
@@ -100,7 +100,7 @@ Tempo totale: 00:14
 2 - buco: 00:14 (2)
 \end{lstlisting}
 
-\subsection{Multiplayer}
+\subsubsection{Multiplayer}
 \label{sec:multiplayer}
 Come già detto la modalità multi player segue le stesse regole di quella single player se non per il fatto che i due giocatori provano a turno a trovare una parola.\\
 Il tablet ``master'' è quello che inizia il processo di connessione scegliendo, tra i dispositivi in ascolto, il tablet ``slave''. I vari aspetti della partita come i settaggi, le sillabe presenti e le parole da trovare vengono tutti stabiliti dal ``master'' che si occupa quindi anche di gestire il flow del gioco, mentre lo ``slave'' partecipa in modo passivo.\\

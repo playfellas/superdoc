@@ -4,9 +4,9 @@
 
 
 
-\section{Database}
+\subsection{Database}
 
-\subsection{Struttura}
+\subsubsection{Struttura}
 \label{structure}
 Il database SQLite è stato implementato tramite SugarORM, un ORM (Object-Relational Mapping) sviluppato appositamente per Android. In questo modo le entità del database sono direttamente mappate su classi Java, utilizzando il pattern DAO (Data Access Object).\\
 Il database contiene 5 entità all'interno del package \\\code{it.gbresciani.legodigitalsonoro.model}:
@@ -26,7 +26,7 @@ In figura \ref{fig:entities} sono riportati dettagli delle entità.
   \caption{Entità presenti nel database}
 \end{figure}
 
-\subsection{Inizializzazione}
+\subsubsection{Inizializzazione}
 Il database viene inizializato la prima volta che l'applicazione viene aperta con i dati in formato \textit{JSON} presenti nei files \code{words.json} e \code{syllable.json} contenuti nella cartella degli \code{assets}.\\
 Il listing \ref{lst:words_json} contiene un estratto del file \code{words.json}
 
