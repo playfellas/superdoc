@@ -15,7 +15,7 @@
 
 \section{Manuale Utente}
 
-L'applicazione LegoDigitalSonoro è una applicazione mobile progettata per la compatibilità con Android. L'applicazione è un semplice gioco dedicato ai bambini in età prescolare il cui intento è quello di insegnare loro a comporre delle parole bisillabe.
+L'applicazione Incastri Sonori è una applicazione mobile progettata per la compatibilità con Android. L'applicazione è un semplice gioco dedicato ai bambini in età prescolare il cui intento è quello di insegnare loro a comporre delle parole bisillabe.
 
 Al giocatore vengono presentate 4 o 6 tessere rappresentanti una sillaba di una determinata parola. Ogni tessera è associata ad una seconda tessera con cui andrà a formare una parola bisillaba. Ad ogni parola è associata una rappresentazione, quindi per esempio alla parola ``cane'' sarà associata la figura di un cane, alla parola ``mora'' una mora e così via. Ogni immagine è divisa a metà in due tessere rappresentanti le due sillabe componenti la parola. Il gioco consiste nel selezionare la coppia di tessere nella successione corretta per formare una parola di senso compiuto. Una volta accoppiate tutte le tessere della schermata il gioco sarà completato. L'applicazione raccoglie dati sulla velocità con cui il bambino compone una determinata parola e li invia via mail ad un indirizzo prescelto.
 
@@ -43,11 +43,11 @@ Perchè due giocatori possano giocare insieme occorre che entrambi selezionino l
 
 \includefigure{schermataDeviceList}{Schermata impostazione della partita doppia: lista dei giocatori disponibili}
 
-L'applicazione LegoDigitalSonoro1 permette di raccogliere i dati sulla partita appena giocata. Ogni volta che viene completata una partita in modalità giocatore singolo, viene inviata una mail all'indirizzo specificato nelle impostazioni contenente il numero di parole totale, tutte le parole completate e, per ogni parola, il tempo di completamento.
+L'applicazione Incastri Sonori permette di raccogliere i dati sulla partita appena giocata. Ogni volta che viene completata una partita in modalità giocatore singolo, viene inviata una mail all'indirizzo specificato nelle impostazioni contenente il numero di parole totale, tutte le parole completate e, per ogni parola, il tempo di completamento.
 
 \section{Manuale Sviluppatore}
 
-L'applicazione LegoDigitalSonoro è stata progettata per girare su Android 4.2. I dati sono incorporati all'interno dell'applicazione, quindi non occorre scaricare da remoto alcuna informazione. L'unico contatto con un sistema remoto avviene al momento della inizializzazione della partita in modalità ``sfida''
+L'applicazione Incastri Sonori è stata progettata per girare su Android 4.2. I dati sono incorporati all'interno dell'applicazione, quindi non occorre scaricare da remoto alcuna informazione. L'unico contatto con un sistema remoto avviene al momento della inizializzazione della partita in modalità ``sfida''
 
 L'applicazione è costituita da 3 activity principali che sono la \code{MainActivity}, che controlla la schermata inziale e permette all'utente di scegliere fra partita singola, multipla o modifica delle impostazioni, la \code{MatchActivity}, che controlla la schermata di gioco, e la \code{ConnectionSetupActivity}, che gestisce la schermata di setup della partita in modalità doppio giocatore. Per un diagramma di interazione tra le \emph{activity} citate, si veda figura \ref{fig:activities}.
 
